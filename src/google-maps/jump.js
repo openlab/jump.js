@@ -17,9 +17,9 @@
         name = name.split('.')[1];
 		
 		$[namespace] = $[namespace] || {};
-		$[namespace][name] = function(options, element) {
+		$[namespace][name] = function(options, element, callback) {
 			if ( arguments.length ) {
-				this._setup(options, element);
+				this._setup(options, element, callback);
 			}
 		};
 		
@@ -42,7 +42,7 @@
 			this.each(function() {
 				var instance = $.data(this, name);
 				if (!instance) {
-					instance = $.data(this, name, new $[namespace][name](options, this));
+					instance = $.data(this, name, new $[namespace][name](options, this, args));
 				}
 				if (isMethodCall) {
 					var value = instance[options].apply(instance, args);
@@ -88,23 +88,29 @@
 		 * Setup plugin basics, 
 		 * @param options:object
 		 * @param element:node
+		 * @param callback:function() (optional)
 		 */
-		_setup: function(options, element) {
+		_setup: function(options, element, callback) {
 			this.el = element;
 			options = options || {};
 			jQuery.extend(this.options, options, { 'center': this._latLng(options.center) });
-			this._create();
+			this._create(callback);
 			if ( this._init ) { this._init(); }
 		},
 		
 		/**
 		 * Instanciate the Google Maps object
 		 */
-		_create: function() {
+		_create: function(callback) {
 			var self = this;
 			this.instance = { 'map': new google.maps.Map(self.el, self.options), 'markers': [], 'overlays': [], 'services': [] };
-			google.maps.event.addListenerOnce(self.instance.map, 'bounds_changed', function() { $(self.el).trigger('init', self.instance.map); });
-			self._call(self.options.callback, self.instance.map);
+			if ( callback ) {
+				self._call(callback[0], self.instance.map);
+			} else {
+				google.maps.event.addListenerOnce(self.instance.map, 'bounds_changed', function() { 
+					$(self.el).trigger('init', self.instance.map); 
+				});
+			}
 		},
 		
 		/**
