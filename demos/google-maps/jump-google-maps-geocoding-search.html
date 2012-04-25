@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+   <head>
+		<title>Google maps geocoding - jump.js - jQuery Google maps plugin</title>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta http-equiv="content-language" content="en" />
+		<meta name="author" content="Johan Säll Larsson" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<meta name="description" content="A jQuery Google maps geocoding example using jQuery Google maps v3 plugin jump.js for web and mobile" />
+		<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+		<meta name="DC.title" content="Google maps geocoding - jump.js - jQuery Google maps plugin" />
+		<meta name="DC.description" content="A jQuery Google maps geocoding example using jQuery Google maps v3 plugin jump.js for web and mobile" />
+		<meta name="DC.creator" content="Johan Säll Larsson" />
+        <meta name="DC.language" content="en" />
+		<link type="text/css" rel="stylesheet" href="../css/960/960.css" />
+		<link type="text/css" rel="stylesheet" href="../css/960/960_16_col.css" />
+		<link type="text/css" rel="stylesheet" href="../css/normalize/normalize.css" />
+		<link type="text/css" rel="stylesheet" href="../css/prettify/prettify.css" />
+		<link type="text/css" rel="stylesheet" href="../css/demo.css" />
+		<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Anton" />
+		<script type="text/javascript" src="../js/modernizr/modernizr-2.5.3.min.js"></script>
+    </head>
+    <body>
+		<header class="dark">
+			<div class="container_16">
+				<h1><a href="/">jump.js - Google maps jQuery plugin <span id="version"></span></a> Geocoding example</h1>
+			</div>
+		</header>
+		<div class="container_16">
+			<article class="grid_16">
+				<div class="search item rounded">
+					<label for="where_query">Where</label><input id="where_query" class="big-input-search rounded" placeholder="Enter an address or a city, eg. New York, USA" type="text" />
+				</div>
+				<div class="item rounded dark">
+					<div id="map_canvas" class="map rounded lft"></div>
+					<div id="search_result" class="lft"></div>
+					<div class="clear"></div>
+				</div>
+				<div class="content rounded light shadow">
+					<h2>Using jump.js with Google maps</h2>
+					<p>
+						Download <a href="http://jquery.com/">jQuery 1.4.X or higher</a> or
+						use <a href="http://code.google.com/intl/sv-SE/apis/libraries/devguide.html">Googles</a> or <a href="http://www.asp.net/ajaxlibrary/cdn.ashx">Microsofts</a> 
+						<abbr title="Content delivery network"><a href="http://en.wikipedia.org/wiki/Content_delivery_network">CDN</a></abbr>.
+					</p>
+<pre class="prettyprint rounded">
+&lt;script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="PATH_TO_PLUGIN/jump.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="PATH_TO_PLUGIN/jump.services.js"&gt;&lt;/script&gt;</pre>
+					
+<pre class="prettyprint rounded">
+$('#map_canvas').jump().bind('init', function() {
+	$('#map_canvas').jump('search', { 'address': 'New York, USA' }, function(result, status) {
+		if ( status === 'OK' ) {
+			$('#map_canvas').jump('addMarker', { 'position': result[0].geometry.location, 'bounds': true });
+		}
+	});
+});</pre>
+
+<pre class="prettyprint rounded">
+$('#map_canvas').jump({}, function(map) {
+	var self = this;
+	self.search({ 'address': 'New York, USA' }, function(result, status) {
+		if ( status === 'OK' ) {
+			self.addMarker({ 'position': result[0].geometry.location, 'bounds': true });
+		}
+	});
+});</pre>
+
+<pre class="prettyprint rounded">
+$('#map_canvas').jump('search', { 'address': 'New York, USA' }, function(result, status) {
+	if ( status === 'OK' ) {
+		$('#map_canvas').jump('addMarker', { 'position': result[0].geometry.location, 'bounds': true });
+	}
+});</pre>
+
+				</div>
+			</article>
+		</div>
+		<footer class="dark">
+			<div class="container_16">
+				<div class="grid_8 more">
+					<h2>More Google maps and jump.js examples</h2>
+					<ul>
+						<li><a href="jump-google-maps-hello-world-example.html">Google maps with jQuery mobile "Hello world" example</a></li>
+						<li><a href="jump-google-maps-filter-by-property.html">Filter pushpins by property</a></li>
+						<li><a href="jump-google-maps-load-marker-by-json.html">Load Google map with JSON data</a></li>
+						<li class="sel buttonize"><a href="jump-google-maps-geocoding-search.html">Address and longitude/latitude (Geocoding) lookup with Google maps</a></li>
+						<li><a href="jump-google-maps-microdata.html">Add markers with microdata</a></li>
+						<li><a href="jump-google-maps-microformat.html">Add markers with microformats</a></li>
+						<li><a href="jump-google-maps-rdfa.html">Add markers with RDFa</a></li>
+						<li><a href="jump-google-maps-extend-with-pagination.html">Extend the plugin with pagination</a></li>
+						<li><a href="jump-google-maps-clustering.html">Using clusters with Google Maps</a></li>
+						<li><a href="jump-google-maps-data-attribute.html">Add markers with jQuery data attribute</a></li>
+						<li><a href="jump-google-maps-geolocation.html">Google maps with geolocation</a></li>
+						<li><a href="jump-google-maps-polygons-and-polylines.html">Polygons and polylines example</a></li>
+						<li><a href="jump-google-maps-mobile.html">Google maps with jQuery mobile (jQM)</a></li>					
+					</ul>
+				</div>
+				<div id="forum" class="hidden rounded forum grid_8"></div>
+				<div class="grid_16" itemscope itemtype="http://data-vocabulary.org/Person">
+					Author: <span itemprop="name">Johan S&auml;ll Larsson</span> (<a href="http://johansalllarsson.se" itemprop="url">http://johansalllarsson.se</a>)
+				</div>
+			</div>
+		</footer>
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+		<script type="text/javascript" src="../js/jquery/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/underscore/underscore-1.3.3.min.js"></script>
+		<script type="text/javascript" src="../js/backbone/backbone-0.9.2.min.js"></script>
+		<script type="text/javascript" src="../js/prettify/prettify.min.js"></script>
+		<script type="text/javascript" src="../js/demo.js"></script>
+		<script type="text/javascript" src="../../src/google-maps/jump.js"></script>
+		<script type="text/javascript" src="../../src/google-maps/services/jump.services.js"></script>
+        <script type="text/javascript">    
+			$(function() { 
+				demo.add(function() {
+					$('#map_canvas').jump(demo.mapOptions, function() {
+						var self = this;
+						$('#where_query').keypress( function(event) {
+							if ( $('#where_query').val() != '' && event.which == 13 ) {
+								var width = parseInt(self.get('width', self.$el.css('width')));
+								self.clear('markers');
+								self.search({ 'address': $('#where_query').val() }, function(result, status, data) { 
+									if ( status === 'OK' ) {
+										self.$el.animate({ 'width': width-300 }, { 'duration': 250 });
+										$('#search_result').animate({ 'width': 300 }, { 'duration': 250 });
+										$('#search_result').empty();
+										self.set('bounds', null);
+										self.closeInfoWindow();
+										$.each(result, function(i, item) {
+											self.addMarker({ 'id': 'm_'+i, 'position': item.geometry.location, 'bounds': true }).click(function() {
+												self.openInfoWindow({ 'content': '<h2>{0}</h2><p><b>Latitude</b> {1}</br><b>Longitude</b> {2}</p>'.format(item.formatted_address, item.geometry.location.lat(), item.geometry.location.lng()) }, this);
+											});
+											$('#search_result').append('<div id="m_{0}" class="{1}"><p><strong>{2}</strong></p></div>'.format(i, ( (i%2) ? 'odd' : 'even' ), item.formatted_address));
+										});
+										$('#search_result div').hover(function() {
+											$($('#map_canvas').jump('get', 'markers')[$(this).attr('id')]).triggerEvent('click');
+										});
+									} else {
+										self.$el.animate({ 'width': '100%' }, { 'duration': 250 });
+										$('#search_result').animate({ 'width': 0 }, { 'duration': 250 });
+									}
+								});
+							}
+						});
+					});
+				}).load();
+			});
+        </script>
+    
+	</body>
+</html>

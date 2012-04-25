@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+   <head>
+		<title>Google maps jQuery Mobile - jump.js - jQuery Google maps plugin</title>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta http-equiv="content-language" content="en" />
+		<meta name="author" content="Johan Säll Larsson" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<meta name="description" content="A Google map v3 jQuery Mobile example using jQuery Google maps v3 plugin jump.js for web and mobile" />
+		<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+		<meta name="DC.title" content="Google maps jQuery Mobile - jump.js - jQuery Google maps plugin" />
+		<meta name="DC.description" content="A Google map v3 jQuery Mobile example using jQuery Google maps v3 plugin jump.js for web and mobile" />
+		<meta name="DC.creator" content="Johan Säll Larsson" />
+		<meta name="DC.language" content="en" />
+		<link type="text/css" rel="stylesheet" href="../css/jquery-ui/jquery.ui-1.8.19.css" />
+		<link type="text/css" rel="stylesheet" href="../css/jquery-mobile/jquery.mobile-1.0.1.min.css" />
+		<link type="text/css" rel="stylesheet" href="../css/mobile.css" />
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places"></script>
+		<script type="text/javascript" src="../js/jquery/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="../js/jquery-mobile/jquery.mobile-1.0.1.min.js"></script>
+		<script type="text/javascript" src="../js/jquery-ui/jquery.ui.core-1.8.19.min.js"></script>
+		<script type="text/javascript" src="../js/jquery-ui/jquery.ui.autocomplete-1.8.19.min.js"></script>
+		<script type="text/javascript" src="../js/demo.js"></script>
+		<script type="text/javascript" src="../../src/google-maps/jump.js"></script>
+		<script type="text/javascript" src="../../src/google-maps/services/jump.services.js"></script>
+		<script type="text/javascript" src="../../src/google-maps/extensions/jump.extensions.js"></script>
+    </head>
+    <body>
+		<div id="home" data-role="page">
+			<div data-role="header">
+				<h1><a data-ajax="false" href="/">jump.js - jQuery mobile with Google maps v3 <span id="version"></span></a></h1>
+			</div>
+			<div data-role="content">					
+				<h2>jQuery mobile examples</h2>
+				<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="a"> 
+					<li><a href="#basic_map">Basic map example</a></li> 
+					<li><a href="#gps_map">Basic map example with geolocation</a></li>
+					<li><a href="#directions_map">Get directions example</a></li> 
+					<li><a href="#places">Search for places</a></li>
+				</ul>
+				
+				<h2>More Google maps and jump.js examples</h2>
+				<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="a">
+					<li><a data-ajax="false" href="jump-google-maps-hello-world-example.html">Google maps with jQuery mobile "Hello world" example</a></li>
+					<li><a data-ajax="false" href="jump-google-maps-filter-by-property.html">Filter pushpins by property</a></li>
+					<li><a data-ajax="false" href="jump-google-maps-load-marker-by-json.html">Load Google map with JSON data</a></li>
+					<li><a data-ajax="false" href="jump-google-maps-geocoding-search.html">Address and longitude/latitude (Geocoding) lookup with Google maps</a></li>
+					<li><a data-ajax="false" href="jump-google-maps-microdata.html">Add markers with microdata</a></li>
+					<li><a data-ajax="false" href="jump-google-maps-microformat.html">Add markers with microformats</a></li>
+					<li><a data-ajax="false" href="jump-google-maps-rdfa.html">Add markers with RDFa</a></li>
+					<li><a data-ajax="false" href="jump-google-maps-extend-with-pagination.html">Extend the plugin with pagination</a></li>
+					<li><a data-ajax="false" href="jump-google-maps-clustering.html">Using clusters with Google Maps</a></li>
+					<li><a data-ajax="false" href="jump-google-maps-data-attribute.html">Add markers with jQuery data attribute</a></li>
+					<li><a data-ajax="false" href="jump-google-maps-geolocation.html">Google maps with geolocation</a></li>
+					<li><a data-ajax="false" href="jump-google-maps-polygons-and-polylines.html">Polygons and polylines example</a></li>
+					<li><a data-ajax="false" href="jump-google-maps-mobile.html">Google maps with jQuery mobile (jQM)</a></li>
+				</ul>
+			</div>
+			<div data-role="footer" data-theme="a">
+				<h3>Need help?</h3>
+				<p class="more">Please feel free to ask for help in the <a data-ajax="false" href="http://groups.google.com/group/jquery-ui-map-discuss">forum</a></p>
+				<div itemscope itemtype="http://data-vocabulary.org/Person">
+					Author: <span itemprop="name">Johan S&auml;ll Larsson</span> (<a href="http://johansalllarsson.se" itemprop="url">http://johansalllarsson.se</a>)
+				</div>
+			</div>
+			
+		</div>
+		
+		<div id="basic_map" data-role="page">
+			<div data-role="header">
+				<h1><a data-ajax="false" href="/">jump.js - jQuery mobile with Google maps v3</a></h1>
+				<a data-rel="back">Back</a>
+			</div>
+			<div data-role="content">	
+				<div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
+					<div id="map_canvas" style="position:relative;height:350px;"></div>
+				</div>
+			</div>
+		</div>	
+
+		<div id="gps_map" data-role="page">
+			<div data-role="header">
+				<h1><a data-ajax="false" href="/">jump.js - jQuery mobile with Google maps v3</a></h1>
+				<a data-rel="back">Back</a>
+			</div>
+			<div data-role="content">	
+				<div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
+					<div id="map_canvas_2" style="height:300px;"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="directions_map" data-role="page">
+			<div data-role="header">
+				<h1><a data-ajax="false" href="/">jump.js - jQuery mobile with Google maps v3</a></h1>
+				<a data-rel="back">Back</a>
+			</div>
+			<div data-role="content">	
+				<div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
+					<div id="map_canvas_1" style="height:300px;position:relative;"></div>
+					<p>
+						<label for="from">From</label>
+						<input id="from" class="ui-bar-c" type="text" value="G&ouml;teborg, Sweden" />
+					</p>
+					<p>
+						<label for="to">To</label>
+						<input id="to" class="ui-bar-c" type="text" value="Stockholm, Sweden" />
+					</p>
+					<a id="submit" href="#" data-role="button" data-icon="search">Get directions</a>
+				</div>
+				<div id="results" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+					<div id="directions"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="places" data-role="page">
+			<div data-role="header" data-add-back-btn="true">
+				<h1><a data-ajax="false" href="/">jump.js - jQuery mobile with Google maps v3</a></h1>
+				<a data-rel="back">Back</a>
+			</div>
+			<div data-role="content">
+				<div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
+					<div id="map_canvas_3" style="height:300px;"></div>
+				</div>
+				<p>This example is using Google geocode for the autocomplete function (which might not be the best way for mobile devices) and Google Places for the results.<p>
+			</div>
+		</div>
+		<script type="text/javascript">
+				
+			var mobileOptions = { 'center': '57.7973333,12.0502107', 'zoom': 10, 'disableDefaultUI':true };
+			
+			$('#basic_map').live('pageinit', function() {
+				demo.add('basic_map', function() {
+					$('#map_canvas').jump(mobileOptions, function() {
+						var self = this;
+						self.addMarker({'position': this.get('map').getCenter() }).click(function() {
+							self.openInfoWindow({ 'content': 'Hello World!' }, this);
+						});
+					}); 
+				}).load('basic_map');
+			});
+			
+			$('#basic_map').live('pageshow', function() {
+				demo.add('basic_map', function() { 
+					$('#map_canvas').jump('refresh'); 
+				}).load('basic_map');
+			});
+			
+			$('#directions_map').live('pageinit', function() {
+				demo.add('directions_map', function() {
+					$('#map_canvas_1').jump(mobileOptions, function() {
+						var self = this;
+						self.set('getCurrentPosition', function() {
+							self.refresh();
+							self.getCurrentPosition( function(position, status) {
+								if ( status === 'OK' ) {
+									var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+									self.get('map').panTo(latlng);
+									self.search({ 'location': latlng }, function(results, status) {
+										if ( status === 'OK' ) {
+											$('#from').val(results[0].formatted_address);
+										}
+									});
+								} else {
+									alert('Unable to get current position');
+								}
+							});
+						});
+						$('#submit').click(function() {
+							self.displayDirections({ 'origin': $('#from').val(), 'destination': $('#to').val(), 'travelMode': google.maps.DirectionsTravelMode.DRIVING }, { 'panel': document.getElementById('directions')}, function(response, status) {
+								( status === 'OK' ) ? $('#results').show() : $('#results').hide();
+							});
+							return false;
+						});
+					});
+				}).load('directions_map');
+			});
+			
+			$('#directions_map').live('pageshow', function() {
+				demo.add('directions_map', $('#map_canvas_1').jump('get', 'getCurrentPosition')).load('directions_map');
+			});
+							
+			$('#gps_map').live('pageinit', function() {
+				demo.add('gps_map', function() {
+					$('#map_canvas_2').jump(mobileOptions, function(map) {
+						var self = this;
+						self.watchPosition(function(position, status) {
+							if ( status === 'OK' ) {
+								var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+								if ( !self.get('markers').client ) {
+									self.addMarker({ 'id': 'client', 'position': latlng, 'bounds': true });
+								} else {
+									self.get('markers').client.setPosition(latlng);
+									map.panTo(latlng);
+								}
+							}
+						});
+					});
+				}).load('gps_map');
+			});
+			
+			$('#gps_map').live('pageshow', function() {
+				demo.add('gps_map', function() { 
+					$('#map_canvas_2').jump('refresh'); 
+				}).load('gps_map');
+			});
+			
+			$('#gps_map').live("pagehide", function() {
+				demo.add('gps_map', function() { 
+					$('#map_canvas_2').jump('clearWatch'); 
+				}).load('gps_map');
+			});
+			
+			$('#places').live('pageinit', function() {
+				demo.add('places_1', function() {
+					$('#map_canvas_3').jump(mobileOptions, function() {
+						var self = this;
+						var control = self.get('control', function() {
+							$(self.el).append('<div id="control"><div><input id="places-search" class="ui-bar-d ui-input-text ui-body-null ui-corner-all ui-shadow-inset ui-body-d ui-autocomplete-input" type="text"/></div></div>');
+							self.autocomplete($('#places-search')[0], function(ui) {
+								self.clear('markers');
+								self.set('bounds', null);
+								self.placesSearch({ 'location': ui.item.position, 'radius': '5000' }, function(results, status) {
+									if ( status === 'OK' ) {
+										$.each(results, function(i, item) {
+											self.addMarker({ 'id': item.id, 'position': item.geometry.location, 'bounds':true }).click(function() {
+												self.openInfoWindow({'content': '<h4>'+item.name+'</h4>'}, this);
+											});
+										});
+									}
+								});
+							});
+							return $('#control')[0];
+						});
+						self.addControl(new control(), 1);
+					});
+				}).load('places_1');
+			});
+			
+			$('#places').live('pageshow', function() {
+				demo.add('places_2', function() { 
+					$('#map_canvas_3').jump('refresh'); 
+				}).load('places_2');
+			});
+				
+        </script>
+	</body>
+</html>

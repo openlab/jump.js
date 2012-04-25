@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+   <head>
+		<title>Bing maps microdata - jump.js - jQuery Bing maps plugin</title>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta http-equiv="content-language" content="en" />
+		<meta name="author" content="Johan Säll Larsson" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<meta name="description" content="A jQuery Bing maps microdata example using jQuery Bing maps v7 plugin jump.js for web and mobile" />
+		<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+		<meta name="DC.title" content="Bing maps microdata - jump.js - jQuery Bing maps plugin" />
+		<meta name="DC.description" content="A jQuery Bing maps microdata example using jQuery Bing maps v7 plugin jump.js for web and mobile" />
+		<meta name="DC.creator" content="Johan Säll Larsson" />
+        <meta name="DC.language" content="en" />
+		<link type="text/css" rel="stylesheet" href="../css/960/960.css" />
+		<link type="text/css" rel="stylesheet" href="../css/960/960_16_col.css" />
+		<link type="text/css" rel="stylesheet" href="../css/normalize/normalize.css" />
+		<link type="text/css" rel="stylesheet" href="../css/prettify/prettify.css" />
+		<link type="text/css" rel="stylesheet" href="../css/demo.css" />
+		<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Anton" />
+		<script type="text/javascript" src="../js/modernizr/modernizr-2.5.3.min.js"></script>
+    </head>
+    <body>
+		<header class="dark">
+			<div class="container_16">
+				<h1><a href="/">jump.js - Bing maps jQuery plugin <span id="version"></span></a> Microdata example</h1>
+			</div>
+		</header>
+		<div class="container_16">
+			<article class="grid_16">
+				<div class="item rounded dark">
+					<div id="map_canvas" class="map rounded"></div>
+				</div>
+				<div class="content rounded light shadow" itemscope itemtype="http://data-vocabulary.org/Event">
+  ​					<a href="#spinaltap" itemprop="url"><span itemprop="summary">Spinal Tap</span></a>
+					<span itemprop="description">
+						After their highly-publicized search for a new drummer, Spinal Tap kicks off their latest comeback tour with a San Francisco show.
+					</span>
+					When:
+					<time itemprop="startDate" datetime="2015-10-15T19:00-08:00">Oct 15, 7:00PM</time>—
+					<time itemprop="endDate" datetime="2015-10-15T19:00-08:00">Oct 15, 9:00PM</time>
+					Where:
+					​<span itemprop="location" itemscope itemtype="http://data-vocabulary.org/​Organization">
+						​<span itemprop="name">Warfield Theatre</span>
+						​<span itemprop="address" itemscope itemtype="http://data-vocabulary.org/Address">
+							<span itemprop="street-address">982 Market St</span>, 
+							<span itemprop="locality">San Francisco</span>, 
+							<span itemprop="region">CA</span>
+						</span>
+						<span itemprop="geo" itemscope itemtype="http://data-vocabulary.org/​Geo">
+							<meta itemprop="latitude" content="37.774929" />
+							<meta itemprop="longitude" content="-122.419416" />
+						</span>
+					</span>
+				</div>
+				<div class="content rounded light shadow">
+					<h2>Using jump.js with Bing maps</h2>
+					<p>Download <a href="http://jquery.com/">jQuery 1.4.X or higher</a> or use <a href="http://code.google.com/intl/sv-SE/apis/libraries/devguide.html">Googles</a> or <a href="http://www.asp.net/ajaxlibrary/cdn.ashx">Microsofts</a>  <abbr title="Content delivery network"><a href="http://en.wikipedia.org/wiki/Content_delivery_network">CDN</a></abbr>.</p>
+<pre class="prettyprint rounded">
+&lt;script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="PATH_TO_PLUGIN/jump.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="PATH_TO_PLUGIN/jump.microdata.js"&gt;&lt;/script&gt;</pre>
+
+<p>This example can be recreated using the following code, using the "bind" event:</p>
+<pre class="prettyprint rounded">
+$('#map_canvas').jump({'credentials': YOUR_BING_MAP_CREDENTIALS}).bind('init', function() {
+	$('#map_canvas').jump('microdata', 'http://data-vocabulary.org/Event', function(result, item, index) {
+		var lat = result.location[0].geo[0].latitude;
+		var lng = result.location[0].geo[0].longitude;
+		var location = new Microsoft.Maps.Location(lat, lng);
+		$('#map_canvas').jump('addMarker', { 
+				'bounds':true, 
+				'location': location, 
+				'summary': result.summary, 
+				'description': result.description 
+			}, function(map, marker) {
+				$(item).click(function() {
+					$(marker).triggerEvent('click');
+					return false;
+				});
+			}
+		).click( function() {
+			$('#map_canvas').jump('openInfoWindow', {
+				'title': this.target.summary, 
+				'description': this.target.description
+			}, this ); 
+		});														 
+	});
+});</pre>
+<p>The same code as above, using the callback function:</p>
+<pre class="prettyprint rounded">
+$('#map_canvas').jump({'credentials': YOUR_BING_MAP_CREDENTIALS }, function() {
+	var self = this;
+	self.microdata('http://data-vocabulary.org/Event', function(result, item, index) {
+		var lat = result.location[0].geo[0].latitude;
+		var lng = result.location[0].geo[0].longitude;
+		var location = new Microsoft.Maps.Location(lat, lng);
+		self.addMarker({ 
+				'bounds':true, 
+				'location': location, 
+				'summary': result.summary, 
+				'description': result.description 
+			}, function(map, marker) {
+				$(item).click(function() {
+					$(marker).triggerEvent('click');
+					return false;
+				});
+			}
+		).click( function() {
+			self.openInfoWindow({
+				'title': this.target.summary, 
+				'description': this.target.description
+			}, this ); 
+		});														 
+	});
+});</pre>
+<p>The same code as above, without the constructor:</p>
+<pre class="prettyprint rounded">
+Microsoft.Maps.Credentials = YOUR_BING_MAP_CREDENTIALS;
+$('#map_canvas').jump('microdata', 'http://data-vocabulary.org/Event', function(result, item, index) {
+	var lat = result.location[0].geo[0].latitude;
+	var lng = result.location[0].geo[0].longitude;
+	var location = new Microsoft.Maps.Location(lat, lng);
+	$('#map_canvas').jump('addMarker', { 
+			'bounds':true, 
+			'location': location, 
+			'summary': result.summary, 
+			'description': result.description 
+		}, function(map, marker) {
+			$(item).click(function() {
+				$(marker).triggerEvent('click');
+				return false;
+			});
+		}
+	).click( function() {
+		$('#map_canvas').jump('openInfoWindow', {
+			'title': this.target.summary, 
+			'description': this.target.description
+		}, this ); 
+	});														 
+});</pre>
+<p>The HTML used in this example looks like this:</p>
+<pre class="prettyprint rounded">
+&lt;div itemscope itemtype="http://data-vocabulary.org/Event"&gt;
+​	&lt;a href="/spinaltap" itemprop="url"&gt;
+		&lt;span itemprop="summary"&gt;Spinal Tap&lt;/span&gt;
+	&lt;/a&gt;
+	&lt;span itemprop="description"&gt;
+		After their highly-publicized search for a new drummer, Spinal Tap kicks off their latest ...
+	&lt;/span&gt;
+	When:
+	&lt;time itemprop="startDate" datetime="2015-10-15T19:00-08:00"&gt;Oct 15, 7:00PM&lt;/time&gt;—
+	&lt;time itemprop="endDate" datetime="2015-10-15T19:00-08:00"&gt;Oct 15, 9:00PM&lt;/time&gt;
+	Where:
+	​&lt;span itemprop="location" itemscope itemtype="http://data-vocabulary.org/​Organization"&gt;
+		​&lt;span itemprop="name"&gt;Warfield Theatre&lt;/span&gt;
+		​&lt;span itemprop="address" itemscope itemtype="http://data-vocabulary.org/Address"&gt;
+			&lt;span itemprop="street-address"&gt;982 Market St&lt;/span&gt;, 
+			&lt;span itemprop="locality"&gt;San Francisco&lt;/span&gt;, 
+			&lt;span itemprop="region"&gt;CA&lt;/span&gt;
+		&lt;/span&gt;
+		&lt;span itemprop="geo" itemscope itemtype="http://data-vocabulary.org/​Geo"&gt;
+			&lt;meta itemprop="latitude" content="37.774929" /&gt;
+			&lt;meta itemprop="longitude" content="-122.419416" /&gt;
+		&lt;/span&gt;
+	&lt;/span&gt;
+&lt;/div&gt;
+</pre>
+<p>The callback function will, with an HTML like above, return an object as seen below:</p>
+<pre class="prettyprint rounded">
+{	
+	@type: "Event",
+	description: "After their highly-publicized search for a new drummer, Spinal Tap kicks off their latest ...",
+	endDate: "2015-10-15T19:00-08:00",
+	location: [
+		{
+			@type: "​Organization"
+			address: [
+				{
+					@type: "Address"
+					locality: "San Francisco"
+					region: "CA"
+					street-address: "982 Market St"
+				}
+			]
+			geo: [
+				{
+					@type: "​Geo"
+					latitude: "37.774929"
+					longitude: "-122.419416"
+				}
+			]
+			name: "Warfield Theatre"
+		}
+	],
+	startDate: "2015-10-15T19:00-08:00",
+	url: "/spinaltap",
+	summary: "Spinal Tap"
+}
+</pre>
+
+					<p>If you want to learn more about using microdata; read <a href="http://support.google.com/webmasters/bin/answer.py?hl=en&answer=99170">about rich snippets and structured data</a> 
+				</div>
+			</article>
+		</div>
+		<footer class="dark">
+			<div class="container_16">
+				<div class="grid_8 more">
+					<h2>More Bing maps and jump.js examples</h2>
+					<ul>
+						<li><a href="jump-bing-maps-hello-world-example.html">Bing maps with jQuery mobile "Hello world" example</a></li>
+						<li><a href="jump-bing-maps-filter-by-property.html">Filter pushpins by property</a></li>
+						<li><a href="jump-bing-maps-load-marker-by-json.html">Load Bing map with JSON data</a></li>
+						<li><a href="jump-bing-maps-geocoding-search.html">Address and longitude/latitude (Geocoding) lookup with Bing maps</a></li>
+						<li class="sel buttonize"><a href="jump-bing-maps-microdata.html">Add markers with microdata</a></li>
+						<li><a href="jump-bing-maps-microformat.html">Add markers with microformats</a></li>
+						<li><a href="jump-bing-maps-rdfa.html">Add markers with RDFa</a></li>
+						<li><a href="jump-bing-maps-extend-with-pagination.html">Extend the plugin with pagination</a></li>
+						<li><a href="jump-bing-maps-clustering.html">Using clusters with Bing Maps</a></li>
+						<li><a href="jump-bing-maps-data-attribute.html">Add markers with jQuery data attribute</a></li>
+						<li><a href="jump-bing-maps-geolocation.html">Bing maps with geolocation</a></li>
+						<li><a href="jump-bing-maps-polygons-and-polylines.html">Polygons and polylines example</a></li>
+						<li><a href="jump-bing-maps-mobile.html">Bing maps with jQuery mobile (jQM)</a></li>
+					</ul>
+				</div>
+				<div id="forum" class="hidden rounded forum grid_8"></div>
+				<div class="grid_16" itemscope itemtype="http://data-vocabulary.org/Person">
+					Author: <span itemprop="name">Johan S&auml;ll Larsson</span> (<a href="http://johansalllarsson.se" itemprop="url">http://johansalllarsson.se</a>)
+				</div>
+			</div>
+		</footer>
+		<script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+		<script type="text/javascript" src="../js/jquery/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/underscore/underscore-1.3.3.min.js"></script>
+		<script type="text/javascript" src="../js/backbone/backbone-0.9.2.min.js"></script>
+		<script type="text/javascript" src="../js/prettify/prettify.min.js"></script>
+		<script type="text/javascript" src="../js/demo.js"></script>
+		<script type="text/javascript" src="../../src/bing-maps/jump.js"></script>
+		<script type="text/javascript" src="../../src/bing-maps/metadata/jump.microdata.js"></script>
+		<script type="text/javascript">
+            $(function() { 
+				demo.add(function() {
+					$('#map_canvas').jump(demo.mapOptions, function() {
+						var self = this;
+						self.microdata('http://data-vocabulary.org/Event', function(result, item, index) {
+							var location = new Microsoft.Maps.Location(result.location[0].geo[0].latitude, result.location[0].geo[0].longitude);
+							self.addMarker({ 'bounds':true, 'location': location, 'summary': result.summary, 'description': result.description }, function(map, marker) {
+								$(item).click(function() {
+									$(marker).triggerEvent('click');
+									return false;
+								});
+							}).click( function() {
+								self.openInfoWindow({'title': this.target.summary, 'description': this.target.description}, this ); 
+							});														 
+						});
+					});
+				}).load();
+			});
+        </script>
+	</body>
+</html>

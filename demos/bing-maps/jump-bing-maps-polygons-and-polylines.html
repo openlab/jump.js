@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+   <head>
+		<title>Bing maps Polygon/Polyline/Circle - jump.js - jQuery Bing maps plugin</title>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta http-equiv="content-language" content="en" />
+		<meta name="author" content="Johan Säll Larsson" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<meta name="description" content="A jQuery Bing maps polygons/polyline/circle example using jQuery Bing maps v7 plugin jump.js for web and mobile" />
+		<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+		<meta name="DC.title" content="Bing maps Polygon/Polyline/Circle - jump.js - jQuery Bing maps plugin" />
+		<meta name="DC.description" content="A jQuery Bing maps polygons/polyline/circle example using jQuery Bing maps v7 plugin jump.js for web and mobile" />
+		<meta name="DC.creator" content="Johan Säll Larsson" />
+        <meta name="DC.language" content="en" />
+		<link type="text/css" rel="stylesheet" href="../css/960/960.css" />
+		<link type="text/css" rel="stylesheet" href="../css/960/960_16_col.css" />
+		<link type="text/css" rel="stylesheet" href="../css/normalize/normalize.css" />
+		<link type="text/css" rel="stylesheet" href="../css/prettify/prettify.css" />
+		<link type="text/css" rel="stylesheet" href="../css/demo.css" />
+		<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Anton" />
+		<script type="text/javascript" src="../js/modernizr/modernizr-2.5.3.min.js"></script>
+    </head>
+    <body>
+		<header class="dark">
+			<div class="container_16">
+				<h1><a href="/">jump.js - jQuery Bing maps <span id="version"></span></a> Polygons, polylines and circles example</h1>
+			</div>
+		</header>
+		<div class="container_16">
+			<article class="grid_16">
+				<div class="item rounded dark">
+					<div id="map_canvas" class="map rounded"></div>
+				</div>
+				<div class="content rounded light shadow">
+					<h2>Using jump.js with Bing maps</h2>
+					<p>
+						Download <a href="http://jquery.com/">jQuery 1.4.X or higher</a> or
+						use <a href="http://code.google.com/intl/sv-SE/apis/libraries/devguide.html">Googles</a> or <a href="http://www.asp.net/ajaxlibrary/cdn.ashx">Microsofts</a> 
+						<abbr title="Content delivery network"><a href="http://en.wikipedia.org/wiki/Content_delivery_network">CDN</a></abbr>.
+					</p>
+
+<pre class="prettyprint rounded">
+&lt;script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="PATH_TO_PLUGIN/jump.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="PATH_TO_PLUGIN/jump.overlays.js"&gt;&lt;/script&gt;</pre>
+
+<pre class="prettyprint rounded">
+var polygonCoords = ['20,-20', '20,20', '-20,20', '-20,-20', '20,-20'];
+var polylinesCoords = ['20,-20', '-20,20'];</pre>
+
+<pre class="prettyprint rounded">
+$('#map_canvas').jump({'credentials': YOUR_BING_MAP_CREDENTIALS}).bind('init', function(ev, map) {
+	$('#map_canvas').jump('Polygon', { 
+		'paths': polygonCoords, 
+		'fillColor': new Microsoft.Maps.Color(100,100,0,100), 
+		'strokeColor': new Microsoft.Maps.Color(200,0,100,100),
+		'strokeThickness': 5 
+	});
+	$('#map_canvas').jump('Polyline', { 
+		'paths': polylinesCoords, 
+		'strokeColor': new Microsoft.Maps.Color(200, 100, 0, 100), 
+		'strokeThickness': 5, 
+		'strokeDashArray': '5 2' 
+	});
+	$('#map_canvas').jump('Circle', { 
+		'center': '20,-20',
+		'radius': 10000
+	});
+});</pre>
+
+<pre class="prettyprint rounded">
+$('#map_canvas').jump({'credentials': YOUR_BING_MAP_CREDENTIALS }, function() {
+	var self = this;
+	self.addShape('Polygon', { 
+		'paths': polygonCoords, 
+		'fillColor': new Microsoft.Maps.Color(100,100,0,100), 
+		'strokeColor': new Microsoft.Maps.Color(200,0,100,100),
+		'strokeThickness': 5 
+	});
+	self.addShape('Polyline', { 
+		'paths': polylinesCoords, 
+		'strokeColor': new Microsoft.Maps.Color(200, 100, 0, 100), 
+		'strokeThickness': 5, 
+		'strokeDashArray': '5 2' 
+	});
+	self.addShape('Circle', { 
+		'center': '20,-20',
+		'radius': 10000 
+	});
+});</pre>
+
+<pre class="prettyprint rounded">
+Microsoft.Maps.Credentials = YOUR_BING_MAP_CREDENTIALS;
+$('#map_canvas').jump('Polygon', { 
+	'paths': polygonCoords, 
+	'fillColor': new Microsoft.Maps.Color(100,100,0,100), 
+	'strokeColor': new Microsoft.Maps.Color(200,0,100,100),
+	'strokeThickness': 5 
+});
+$('#map_canvas').jump('Polyline', { 
+	'paths': polylinesCoords, 
+	'strokeColor': new Microsoft.Maps.Color(200, 100, 0, 100), 
+	'strokeThickness': 5, 
+	'strokeDashArray': '5 2' 
+});
+$('#map_canvas').jump('Circle', { 
+	'center': '20,-20',
+	'radius': 10000
+});
+</pre>
+				</div>
+			</article>
+		</div>
+		<footer class="dark">
+			<div class="container_16">
+				<div class="grid_8 more">
+					<h2>More Bing maps and jump.js examples</h2>
+					<ul>
+						<li><a href="jump-bing-maps-hello-world-example.html">Bing maps with jQuery mobile "Hello world" example</a></li>
+						<li><a href="jump-bing-maps-filter-by-property.html">Filter pushpins by property</a></li>
+						<li><a href="jump-bing-maps-load-marker-by-json.html">Load Bing map with JSON data</a></li>
+						<li><a href="jump-bing-maps-geocoding-search.html">Address and longitude/latitude (Geocoding) lookup with Bing maps</a></li>
+						<li><a href="jump-bing-maps-microdata.html">Add markers with microdata</a></li>
+						<li><a href="jump-bing-maps-microformat.html">Add markers with microformats</a></li>
+						<li><a href="jump-bing-maps-rdfa.html">Add markers with RDFa</a></li>
+						<li><a href="jump-bing-maps-extend-with-pagination.html">Extend the plugin with pagination</a></li>
+						<li><a href="jump-bing-maps-clustering.html">Using clusters with Bing Maps</a></li>
+						<li><a href="jump-bing-maps-data-attribute.html">Add markers with jQuery data attribute</a></li>
+						<li><a href="jump-bing-maps-geolocation.html">Bing maps with geolocation</a></li>
+						<li class="sel buttonize"><a href="jump-bing-maps-polygons-and-polylines.html">Polygons and polylines example</a></li>
+						<li><a href="jump-bing-maps-mobile.html">Bing maps with jQuery mobile (jQM)</a></li>						
+					</ul>
+				</div>
+				<div id="forum" class="hidden rounded forum grid_8"></div>
+				<div class="grid_16" itemscope itemtype="http://data-vocabulary.org/Person">
+					Author: <span itemprop="name">Johan S&auml;ll Larsson</span> (<a href="http://johansalllarsson.se" itemprop="url">http://johansalllarsson.se</a>)
+				</div>
+			</div>
+		</footer>
+		
+		<script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+		<script type="text/javascript" src="../js/jquery/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/underscore/underscore-1.3.3.min.js"></script>
+		<script type="text/javascript" src="../js/backbone/backbone-0.9.2.min.js"></script>
+		<script type="text/javascript" src="../js/prettify/prettify.min.js"></script>
+		<script type="text/javascript" src="../js/demo.js"></script>
+		<script type="text/javascript" src="../../src/bing-maps/jump.js"></script>
+		<script type="text/javascript" src="../../src/bing-maps/overlays/jump.overlays.js"></script>
+        <script type="text/javascript">    
+			$(function() { 
+				demo.add(function() {
+					$('#map_canvas').jump(demo.mapOptions, function() {
+						var self = this;
+						var polygonCoords = ['4,-4', '4,4', '-4,4', '-4,-4', '4,-4'];
+						var polylinesCoords = ['4,-4', '-4,4'];
+						self.addShape('Polygon', { 'paths': polygonCoords, 'fillColor': new Microsoft.Maps.Color(100,100,0,100), 'strokeColor': new Microsoft.Maps.Color(200,0,100,100),'strokeThickness': 5 });
+						self.addShape('Polyline', { 'paths': polylinesCoords, 'strokeColor': new Microsoft.Maps.Color(200, 100, 0, 100), 'strokeThickness': 5, 'strokeDashArray': '5 2' });
+						self.addShape('Circle', { 'center': '2,0', 'radius': 10000 });
+					});
+				}).load();
+			});
+        </script>
+    
+	</body>
+</html>
