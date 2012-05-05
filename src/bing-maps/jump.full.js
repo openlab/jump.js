@@ -350,7 +350,7 @@
 			this.clear('services');
 			this.clear('overlays');
 			this._clear(this.instance);
-			jQuery.removeData(this.el, this.name);
+			$.removeData(this.el, this.name);
 		},
 		
 		/**
@@ -392,7 +392,7 @@
 		_unwrap: function(obj, isObject) {
 			if ( !obj ) {
 				return null;
-			} else if ( obj instanceof jQuery ) {
+			} else if ( obj instanceof $ ) {
 				return obj[0];
 			} else if ( obj instanceof Object ) {
 				return obj;
@@ -527,7 +527,7 @@
 		
 	});
 	
-	jQuery.fn.extend( {
+	$.fn.extend( {
 			
 		triggerEvent: function(eventType) {
 			Microsoft.Maps.Events.invoke(this[0], eventType);		
@@ -548,8 +548,8 @@
 		
 	});
 	
-	jQuery.each(('click rightclick dblclick mouseover mouseout drag dragend').split(' '), function(i, name) {
-		jQuery.fn[name] = function(a, b) {
+	$.each(('click rightclick dblclick mouseover mouseout drag dragend').split(' '), function(i, name) {
+		$.fn[name] = function(a, b) {
 			return this.addEventListener(name, a, b);
 		}
 	});

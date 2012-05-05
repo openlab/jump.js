@@ -94,7 +94,7 @@
 			this.el = element;
 			this.$el = $(element);
 			options = options || {};
-			jQuery.extend(this.options, options, { 'center': this._latLng(options.center) });
+			$.extend(this.options, options, { 'center': this._latLng(options.center) });
 			this._create(callback);
 			if ( this._init ) { this._init(); }
 		},
@@ -296,7 +296,7 @@
 			this.clear('services')
 			this.clear('overlays')
 			this._c(this.instance);
-			jQuery.removeData(this.el, this.name);
+			$.removeData(this.el, this.name);
 		},
 		
 		/**
@@ -338,7 +338,7 @@
 		_unwrap: function(obj, isObject) {
 			if ( !obj ) {
 				return null;
-			} else if ( obj instanceof jQuery ) {
+			} else if ( obj instanceof $ ) {
 				return obj[0];
 			} else if ( obj instanceof Object ) {
 				return obj;
@@ -442,7 +442,7 @@
 		 * @param fusionTableId:int
 		 */
 		loadFusion: function(fusionTableOptions, fusionTableId) {
-			( (!fusionTableId) ? this.get('overlays > FusionTablesLayer', new google.maps.FusionTablesLayer()) : this.get('overlays > FusionTablesLayer', new google.maps.FusionTablesLayer(fusionTableId, fusionTableOptions)) ).setOptions(jQuery.extend({'map': this.get('map') }, fusionTableOptions));
+			( (!fusionTableId) ? this.get('overlays > FusionTablesLayer', new google.maps.FusionTablesLayer()) : this.get('overlays > FusionTablesLayer', new google.maps.FusionTablesLayer(fusionTableId, fusionTableOptions)) ).setOptions($.extend({'map': this.get('map') }, fusionTableOptions));
 		},
 		
 		/**
@@ -452,12 +452,12 @@
 		 * @param kmlLayerOptions:google.maps.KmlLayerOptions, http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#KmlLayerOptions
 		 */
 		loadKML: function(uid, url, kmlLayerOptions) {
-			this.get('overlays > ' + uid, new google.maps.KmlLayer(url, jQuery.extend({'map': this.get('map')}, kmlLayerOptions)));
+			this.get('overlays > ' + uid, new google.maps.KmlLayer(url, $.extend({'map': this.get('map')}, kmlLayerOptions)));
 		}
 		
 	});
 	
-	jQuery.fn.extend( {
+	$.fn.extend( {
 		
 		triggerEvent: function(eventType) {
 			google.maps.event.trigger(this[0], eventType);
@@ -492,8 +492,8 @@
 		
 	});
 	
-	jQuery.each(('click rightclick dblclick mouseover mouseout drag dragend').split(' '), function(i, name) {
-		jQuery.fn[name] = function(a, b) {
+	$.each(('click rightclick dblclick mouseover mouseout drag dragend').split(' '), function(i, name) {
+		$.fn[name] = function(a, b) {
 			return this.addEventListener(name, a, b);
 		}
 	});

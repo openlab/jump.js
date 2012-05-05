@@ -108,7 +108,7 @@ $('#map_canvas').jump('addMarker', { 'location': '57.7973333,12.0502107', 'bound
 				demo.add(function() {
 					$('#map_canvas').jump(demo.mapOptions, function() {
 						var self = this;
-						self.addMarker({ 'location': '57.7973333,12.0502107', 'bounds': false }).click( function() {
+						self.addMarker({ 'location': '57.7973333,12.0502107', 'bounds': true }).click( function() {
 							self.openInfoWindow({ 'title': 'Hello World!', 'description': 'A little description...' }, this);
 						});
 					});				

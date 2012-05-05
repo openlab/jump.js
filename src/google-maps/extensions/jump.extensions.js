@@ -170,7 +170,7 @@
 			if ( !this.get('overlays').PanoramioLayer ) {
 				this.get('overlays').PanoramioLayer = new google.maps.panoramio.PanoramioLayer();
 			}
-			this.get('overlays').PanoramioLayer.setOptions(jQuery.extend({'map': this.get('map') }, panoramioLayerOptions));
+			this.get('overlays').PanoramioLayer.setOptions($.extend({'map': this.get('map') }, panoramioLayerOptions));
 		},*/
 		
 		/**
