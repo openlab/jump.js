@@ -10,6 +10,6 @@ title: jump.js
 <div class="posts">
 	{% for post in site.posts %}	
     	<h4><a href="http://openlab.github.com/jump.js{{ post.url }}">{{ post.title }}</a></h4>
-    	<p class="view"><small><strong>{{ post.date | date: date_to_string }}</strong> . {{ post.category }} . <a href="http://openlab.github.com/jump.js{{ post.url }}#disqus_thread"></a></small></p>			
+    	<p class="view"><small><strong>{{ post.date | date_to_string }}</strong> . {{ post.category }} . <a href="http://openlab.github.com/jump.js{{ post.url }}#disqus_thread"></a></small></p>			
 	{% endfor %}
 </div>
