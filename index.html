@@ -4,3 +4,10 @@ title: TEST
 ---
 
 <p>Test</p>
+
+<h2>News</h2>
+  <ul class="news">
+    {% for news in site.news %}
+      <li><span>{{ news.date | date_to_string }}</span> &raquo; <a href="{{ news.url }}">{{ news.title }}</a></li>
+    {% endfor %}
+  </ul>
