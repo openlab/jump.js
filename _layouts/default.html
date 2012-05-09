@@ -39,6 +39,20 @@
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
+
+	<script type="text/javascript">
+			
+		var disqus_shortname = 'jumpjs'; 
+	    var disqus_identifier = '{{ page.url }}';
+		var disqus_url = 'http://openlab.github.com/jump.js{{ page.url }}';
+
+		(function () {
+			var s = document.createElement('script'); s.async = true;
+			s.type = 'text/javascript';
+			s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+			(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+		}());
+	</script>
 	<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
 	<script type="text/javascript">stLight.options({publisher: "ur-2bf733e1-d424-1d5c-c17e-791750aed961"}); </script>
     <script type="text/javascript">
