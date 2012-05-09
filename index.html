@@ -13,6 +13,14 @@ function example() {
 }
 {% endhighlight %}
 
+<h3>Documentation</h3>
+<div class="documentation">
+	{% for document in site.documentation %}	
+    	<h4><a href="http://openlab.github.com/jump.js{{ document.url }}">{{ document.title }}</a></h4>
+    	<p class="view"><small><strong>{{ document.date | date_to_string }}</strong> . {{ document.category }}.</p>			
+	{% endfor %}
+</div>
+
 <h3>News</h3>
 <div class="posts">
 	{% for post in site.posts %}	

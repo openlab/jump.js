@@ -1,0 +1,517 @@
+---
+layout: default
+title: Google Maps and Bing Maps Sample Code
+category: code
+---
+
+{% highlight javascript %}
+$('#map_canvas').jump();
+{% endhighlight %}
+
+<p><a href="http://msdn.microsoft.com/en-us/library/gg427603.aspx">Map options</a> are added in the constructor or set with the option method</p>
+
+{% highlight javascript %}
+$('#map_canvas').jump({ 'center': '42.345573,-71.098326' });
+{% endhighlight %}
+
+<p>The map options is extended with a callback function which will execute when the Bing Map object has been instanciated.</p>
+<p>The keyword 'this' within the callback refers to the plugin object itself. Which means you can execute shorthand code; e.g. this.addMarker({...}); </p>
+{% highlight javascript %}
+$('#map_canvas').jump({}, function(map) {
+
+});
+{% endhighlight %}
+
+<p>When the map is initialized it will trigger the 'init' event.</p>
+
+{% highlight javascript %}
+$('#map_canvas').jump().bind('init', function(event, map) { 
+																									  
+});
+{% endhighlight %}
+
+<p>All properties in the [http://msdn.microsoft.com/en-us/library/gg427603.aspx MapOption] object can be set and retrieved by the "option" method</p>
+
+<p>Get e.g. the zoom</p>
+{% highlight javascript %}
+var zoom = $('#map_canvas').jump('option', 'zoom');
+{% endhighlight %}
+
+<p>Set e.g. the zoom</p>
+{% highlight javascript %}
+$('#map_canvas').jump('option', 'zoom', 7);
+{% endhighlight %}
+
+<h2>Example add custom control</h2>
+
+{% highlight javascript %}
+$('#map_canvas').jump().bind('init', function() { 
+	$('#map_canvas').jump('addControl', 'control');																										  
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump({}, function() {
+	this.addControl('control', 0);	
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump('addControl', 'control', 0);
+{% endhighlight %}
+
+<h2>Example add marker</h2>
+
+<p>The position can be set with a string representation of a latitude/longitude ('xx.xx,xx.xx') or with a Microsoft.Maps.Location().
+If you set the property bounds to true the map will calculate the viewport and zoom automagically, overriding any zoom set in the contructor.
+If a property 'id' is added to the addMarker method the marker will be retrievable by it's id with the 'get' method.</p>
+<p><a href="http://msdn.microsoft.com/en-us/library/gg427629.aspx">All options</a></p>
+
+{% highlight javascript %}
+$('#map_canvas').jump().bind('init', function(evt, map) { 
+	$('#map_canvas').jump('addMarker', { /*id:'m_1',*/ 'location': '42.345573,-71.098326', 'bounds': true } );																										  
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump({}, function() {
+	this.addMarker( { /*id:'m_1',*/ 'location': '42.345573,-71.098326', 'bounds': true } );																										  
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump('addMarker', { /*id:'m_1',*/ 'location': '42.345573,-71.098326', 'bounds': true } );
+{% endhighlight %}
+
+<h2>Example InfoWindow</h2>
+
+<p>Showing an InfoWindow on a click event, use 'title' and 'description' as properties for the info window if you
+don't want to add HTML content.</p>
+<p><a href="http://msdn.microsoft.com/en-us/library/gg675210.aspx">All options</a></p>
+
+{% highlight javascript %}
+$('#map_canvas').jump().bind('init', function() { 
+	$('#map_canvas').jump('addMarker', { 'location':  '42.345573,-71.098326', 'bounds': true }).click(function() {
+		$('#map_canvas').jump('openInfoWindow', { 'htmlContent': 'HTML_IN_INFOWINDOW' }, this);
+	});                                                                                                                                                                                                                               
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump({}, function() {
+	var self = this;
+	self.addMarker({ 'location':  '42.345573,-71.098326', 'bounds': true }).click(function() {
+		self.openInfoWindow({ 'htmlContent': 'TEXT_AND_HTML_IN_INFOWINDOW' }, this);
+	});                                                                                                                                                                                                                               
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump('addMarker', { 'location':  '42.345573,-71.098326', 'bounds': true }).click(function() {
+	$('#map_canvas').jump('openInfoWindow', { 'htmlContent': 'TEXT_AND_HTML_IN_INFOWINDOW' }, this);
+});
+{% endhighlight %}
+
+<h2>Example add markers with JSON</h2>
+
+<p>Example JSON response</p>
+
+{% highlight javascript %}
+{"markers":[
+	{ "latitude":0.0, "longitude":0.0 }
+]}
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump().bind('init', function(evt, map) { 
+	$.getJSON( 'URL_TO_JSON', function(data) { 
+		$.each( data.markers, function(i, m) {
+			$('#map_canvas').jump('addMarker', { 'location': new Microsoft.Maps.Location(m.latitude, m.longitude), 'bounds':true } );
+		});
+	});																											  
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump({}, function() {
+	var self = this;
+	$.getJSON( 'URL_TO_JSON', function(data) { 
+		$.each( data.markers, function(i, m) {
+			self.addMarker( { 'location': new Microsoft.Maps.Location(m.latitude, m.longitude), 'bounds':true } );
+		});
+	});																											  
+}});
+{% endhighlight %}
+
+{% highlight javascript %}
+$.getJSON( 'URL_TO_JSON', function(data) { 
+	$.each( data.markers, function(i, m) {
+		$('#map_canvas').jump('addMarker', { 'location': new Microsoft.Maps.Location(m.latitude, m.longitude), 'bounds':true } );
+	});
+});																											  
+{% endhighlight %}
+
+<h2>Example loadDirections</h2>
+
+{% highlight javascript %}
+$('#map_canvas').jump().bind('init', function(evt, map) { 
+	$('#map_canvas').jump('loadDirections', { 'origin': 'Los Angeles, USA', 'destination': 'New York, USA' }, function(result, status) {
+		if ( status === 'OK' ) {
+			alert('Results found!');
+		}
+	});																											  
+});
+{% endhighlight %}
+
+<h2>Example displayDirections</h2>
+
+{% highlight javascript %}
+$('#map_canvas').jump().bind('init', function(evt, map) { 
+	$('#map_canvas').jump('displayDirections', { 'origin': 'Los Angeles, USA', 'destination': 'New York, USA', 'routeMode': Microsoft.Maps.Directions.RouteMode.driving }, { 'panel': document.getElementById('panel') } );																											  
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump({}, function() { 
+	this.displayDirections({ 'origin': 'Los Angeles, USA', 'destination': 'New York, USA', 'routeMode': Microsoft.Maps.Directions.RouteMode.driving }, { 'panel': document.getElementById('panel') } );																											  
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump('displayDirections', { 'origin': 'Los Angeles, USA', 'destination': 'New York, USA', 'routeMode': Microsoft.Maps.Directions.RouteMode.driving }, { 'panel': document.getElementById('panel') } );																											  
+{% endhighlight %}
+
+<h2>Example filter tags, categories, etc with find</h2>
+
+<p>Find an object by searching a single property with a single value.</p>
+
+<p>All options: 
+	<ul>
+		<li>property</li>
+		<li>value</li>
+		<li>operator (optional)</li>
+	</ul>
+</p>
+{% highlight javascript %}
+$('#map_canvas').jump().bind('init', function() { 
+	$('#map_canvas').jump('addMarker', { 'tags':'foo', 'location': '42.345573,-71.098326', 'bounds':true });
+	$('#map_canvas').jump('find', 'markers', { 'property': 'tags', 'value': 'foo' }, function(marker, isFound) {
+		marker.setOptions({ 'visible': isFound });
+	});
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump({}, function() {
+	this.addMarker({ 'tags':'foo', 'location': '42.345573,-71.098326', 'bounds':true });
+	this.find('markers', { 'property': 'tags', 'value': 'foo' }, function(marker, isFound) {
+		marker.setOptions({ 'visible': isFound });
+	});
+});
+{% endhighlight %}
+
+{% highlight javascript %} 
+$('#map_canvas').jump('addMarker', { 'tags':'foo', 'location': '42.345573,-71.098326', 'bounds':true });
+$('#map_canvas').jump('find', 'markers', { 'property': 'tags', 'value': 'foo' }, function(marker, isFound) {
+	marker.setOptions({ 'visible': isFound });
+});
+{% endhighlight %}
+
+<p>Find an object by searching a single property with multiple values.</p>
+
+<p>All options: 
+	<ul>
+		<li>property</li>
+		<li>value</li>
+		<li>operator (optional)</li>
+	</ul>
+</p>
+  
+{% highlight javascript %}
+$('#map_canvas').jump().bind('init', function() { 
+	$('#map_canvas').jump('addMarker', { 'tags':'foo, bar, baz', 'location': '42.345573,-71.098326', 'bounds':true });
+	$('#map_canvas').jump('find', 'markers', { 'property': 'tags', 'value': 'foo', 'delimiter': ', '}, function(marker, isFound) {
+		marker.setOptions({ 'visible': isFound });
+	});
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump({}, function() {
+	this.addMarker({ 'tags':'foo, bar, baz', 'location': '42.345573,-71.098326', 'bounds':true });
+	this.find('markers', { 'property': 'tags', 'value': 'foo', 'delimiter': ', '}, function(marker, isFound) {
+		marker.setOptions({ 'visible': isFound });
+	});
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump('addMarker', { 'tags':'foo, bar, baz', 'location': '42.345573,-71.098326', 'bounds':true });
+$('#map_canvas').jump('find', 'markers', { 'property': 'tags', 'value': 'foo', 'delimiter': ', '}, function(marker, isFound) {
+	marker.setOptions({ 'visible': isFound });
+});
+{% endhighlight %}
+
+<h2>Example RDFa</h2>
+
+{% highlight javascript %}
+$('#map_canvas').jump().bind('init', function() { 
+	$('#map_canvas').jump('rdfa', 'v:Event', function(result, item, index) {
+		var lat = result.location[0].geo[0].latitude;
+		var lng = result.location[0].geo[0].longitude;
+		$('#map_canvas').jump('addMarker', { 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+	});
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump({}, function() { 
+	var self = this;
+	self.rdfa('v:Event', function(result, item, index) {
+		var lat = result.location[0].geo[0].latitude;
+		var lng = result.location[0].geo[0].longitude;
+		self.addMarker({ 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+	});
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump('rdfa', 'v:Event', function(result, item, index) {
+	var lat = result.location[0].geo[0].latitude;
+	var lng = result.location[0].geo[0].longitude;
+	$('#map_canvas').jump('addMarker', { 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+});
+{% endhighlight %}
+
+<h2>Example Microdata</h2>
+
+{% highlight javascript %}
+$('#map_canvas').jump().bind('init', function() { 
+	$('#map_canvas').jump('microdata', 'http://data-vocabulary.org/Event', function(result, item, index) {
+		var lat = result.location[0].geo[0].latitude;
+		var lng = result.location[0].geo[0].longitude;
+		$('#map_canvas').jump('addMarker', { 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+	});
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump({}, function() { 
+	var self = this;
+	self.microdata('http://data-vocabulary.org/Event', function(result, item, index) {
+		var lat = result.location[0].geo[0].latitude;
+		var lng = result.location[0].geo[0].longitude;
+		self.addMarker({ 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+	});
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump('microdata', 'http://data-vocabulary.org/Event', function(result, item, index) {
+	var lat = result.location[0].geo[0].latitude;
+	var lng = result.location[0].geo[0].longitude;
+	$('#map_canvas').jump('addMarker', { 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+});
+{% endhighlight %}
+
+<h2>Example Microformat</h2>
+
+{% highlight javascript %}
+$('#map_canvas').jump().bind('init', function() { 
+	$('#map_canvas').jump('microformat', '.vevent', function(result, item, index) {
+		var lat = result.location[0].geo[0].latitude['value-title'];
+		var lng = result.location[0].geo[0].longitude['value-title'];
+		$('#map_canvas').jump('addMarker', { 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+	});
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump({}, function() { 
+	var self = this;
+	self.microformat('.vevent', function(result, item, index) {
+		var lat = result.location[0].geo[0].latitude['value-title'];
+		var lng = result.location[0].geo[0].longitude['value-title'];
+		self.addMarker({ 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+	});
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump('microformat', '.vevent', function(result, item, index) {
+	var lat = result.location[0].geo[0].latitude['value-title'];
+	var lng = result.location[0].geo[0].longitude['value-title'];
+	$('#map_canvas').jump('addMarker', { 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+});
+{% endhighlight %}
+
+
+<h2>Example Polygon/Polyline</h2>
+
+{% highlight javascript %}
+var polylines = ['0.0,0.0', '1.0,1.0'];
+$('#map_canvas').jump().bind('init', function() { 
+	$('#map_canvas').jump('addShape', 'Polyline', { 'paths': polylines, 'strokeColor': new Microsoft.Maps.Color(200, 100, 0, 100), 'strokeThickness': 5, 'strokeDashArray': '5 2' });
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+var polygons = ['20,-20', '20,20', '-20,20', '-20,-20', '20,-20'];
+$('#map_canvas').jump().bind('init', function() { 
+	$('#map_canvas').jump('addShape', 'Polygon', { 'paths': polygons, 'fillColor': new Microsoft.Maps.Color(100,100,0,100), 'strokeColor': new Microsoft.Maps.Color(200,0,100,100),'strokeThickness': 5 });
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+var polylines = ['0.0,0.0', '1.0,1.0'];
+$('#map_canvas').jump({}, function() {  
+	var self = this;
+	self.addShape('Polyline', { 'paths': polylines, 'strokeColor': new Microsoft.Maps.Color(200, 100, 0, 100), 'strokeThickness': 5, 'strokeDashArray': '5 2' });
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+var polygons = ['20,-20', '20,20', '-20,20', '-20,-20', '20,-20', '20,-20'];
+$('#map_canvas').jump({}, function() {  
+	var self = this;
+	self.addShape('Polygon', { 'paths': polygons, 'fillColor': new Microsoft.Maps.Color(100,100,0,100), 'strokeColor': new Microsoft.Maps.Color(200,0,100,100),'strokeThickness': 5 });
+});
+{% endhighlight %}
+
+<h2>Search</h2>
+
+{% highlight javascript %}
+$('#map_canvas').jump().bind('init', function() {
+	$('#map_canvas').jump('search', { 'address': 'Stockholm' }, function(results, status) {
+		if ( status === 'OK' ) {
+			var location = new Microsoft.Maps.Location(item.point.coordinates[0],item.point.coordinates[1]);
+			$('#map_canvas').jump('get', 'map').setView({'center':location});
+		}
+	});
+}});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump({}, function() {
+	var self = this;
+	self.search({ 'address': 'Stockholm' }, function(results, status) {
+		if ( status === 'OK' ) {
+			var location = new Microsoft.Maps.Location(item.point.coordinates[0],item.point.coordinates[1]);
+			self.get('map').setView({'center':location});
+		}
+	});
+});
+{% endhighlight %}
+
+{% highlight javascript %}
+$('#map_canvas').jump('search', { 'address': 'Stockholm' }, function(results, status) {
+    if ( status === 'OK' ) {
+		var location = new Microsoft.Maps.Location(item.point.coordinates[0],item.point.coordinates[1]);
+		$('#map_canvas').jump('get', 'map').setView({'center':location});
+	}
+});
+{% endhighlight %}
+
+<h2>Clear markers</h2>
+
+{% highlight javascript %}
+$('#map_canvas').jump('clear', 'markers');
+{% endhighlight %}
+
+<h2>Example destroy</h2>
+
+{% highlight javascript %}
+$('#map_canvas').jump('destroy');
+{% endhighlight %}
+
+<h2>Set/Get</h2>
+
+<p>You can use the set and get methods to store an object/function</p>
+
+{% highlight javascript %}
+$('#map_canvas').jump('set', 'alert', function() { alert('test'); } );
+$('#map_canvas').jump('get', 'alert')();
+{% endhighlight %}
+
+<p>Set 'foo' to the object { 'bar': 'baz' }</p>
+
+{% highlight javascript %}
+$('#map_canvas').jump('set', 'foo', {'bar':'baz'} } );
+{% endhighlight %}
+
+<p>Get 'foo'</p>
+
+{% highlight javascript %}
+$('#map_canvas').jump('get', 'foo').bar;
+// or
+$('#map_canvas').jump('get', 'foo > bar');
+{% endhighlight %}
+
+<p>You can get an object and set a default value if it doesn't exist</p>
+{% highlight javascript %}
+var theAlertFunction = $('#map_canvas').jump('get', 'alert', function() { alert('test'); } )();
+{% endhighlight %}
+
+
+<h2>Get markers, services, and more</h2>
+
+<p>Get all markers as an array</p>
+
+{% highlight javascript %}
+var markers = $('#map_canvas').jump('get', 'markers');
+{% endhighlight %}
+
+<p>If you call the method addMarkers and set the id property the $('#map_canvas').jump('get', 'markers') will return an associative array which means you cannot use .length to count the markers.</p>
+
+<p>Get a marker with the id 'm_1'</p>
+
+{% highlight javascript %}
+var marker = $('#map_canvas').jump('get', 'markers > m_1');
+var marker = $('#map_canvas').jump('get', 'markers')['m_1'];
+var marker = $('#map_canvas').jump('get', 'markers').m_1;
+{% endhighlight %}
+
+<p>Get the first marker if not using id's</p>
+
+{% highlight javascript %}
+var marker = $('#map_canvas').jump('get', 'markers > 0');
+var marker = $('#map_canvas').jump('get', 'markers')[0];
+{% endhighlight %}
+
+<p>Get all services</p>
+
+{% highlight javascript %}
+$('#map_canvas').jump('get', 'services');
+{% endhighlight %}
+
+<p>Get a specific service implementation</p>
+
+{% highlight javascript %}
+$('#map_canvas').jump('get', 'services > DirectionsManager');
+$('#map_canvas').jump('get', 'services')['DirectionsManager'];
+$('#map_canvas').jump('get', 'services').DirectionsManager;
+{% endhighlight %}
+
+<p>Get all overlays</p>
+
+{% highlight javascript %}
+$('#map_canvas').jump('get', 'overlays');
+{% endhighlight %}
+
+<p>Polygons/Circles/etc are stored in an array</p>
+
+{% highlight javascript %}
+var arrayOfPolygons = $('#map_canvas').jump('get', 'overlays > Polygon');
+{% endhighlight %}
+
+<p>Get bounds set by the addMarker property, not the map.bounds</p>
+
+{% highlight javascript %}
+$('#map_canvas').jump('get', 'bounds');
+{% endhighlight %}
+
+<p>Clear bounds set by the addMarker property, not the map.bounds</p>
+
+{% highlight javascript %}
+$('#map_canvas').jump('set', 'bounds', null);
+{% endhighlight %}
