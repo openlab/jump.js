@@ -4,21 +4,12 @@ title: jump.js
 ---
 
 <h3>jQuery plugin for Google and Bing Maps.</h3>
-
-<h3>News</h3>
-<ul class="posts">
-    {% for post in site.posts %}
-	<li>
-		<span>{{ post.date | date_to_string }}</span> &raquo; 
-		<a href="http://openlab.github.com/jump.js{{ post.url }}#disqus_thread" data-disqus-identifier="http://openlab.github.com/jump.js{{ page.url }}">{{ post.title }}</a>
-	</li>
-    {% endfor %}
-</ul>
+<p>TODO: Fill me with content</p>
 
 <h3>News</h3>
 <div class="posts">
 	{% for post in site.posts %}	
     	<h4><a href="http://openlab.github.com/jump.js{{ post.url }}">{{ post.title }}</a></h4>
-    	<p><small><strong>{{ post.date | date: date_to_string }}</strong> . {{ post.category }} . <a href="http://openlab.github.com/jump.js{{ post.url }}#disqus_thread"></a></small></p>			
+    	<p class="view"><small><strong>{{ post.date | date: date_to_string }}</strong> . {{ post.category }} . <a href="http://openlab.github.com/jump.js{{ post.url }}#disqus_thread"></a></small></p>			
 	{% endfor %}
 </div>
